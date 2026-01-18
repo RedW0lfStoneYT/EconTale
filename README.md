@@ -46,3 +46,18 @@ you can modify the amount or cancel the event.
 `HycononyMoneyAddEvent.Post` - Fired after money has been added to a player's account.  
 `HycononyMoneyRemoveEvent.Pre` - Same concept as the AddEvent.Pre but for removing money.
 `HycononyMoneyRemoveEvent.Post` - Same concept as the AddEvent.Post but for removing money.
+
+## Adding to your plugin
+Gradle
+```gradle
+repositories {
+    maven {
+        url "https://repo.selenadevelopment.com/releases"
+    }
+}
+
+dependencies {
+    implementation "dev.selena:EconTale:<VERSION>"
+}
+```
+for other build tools please refer to [the repo](https://repo.selenadevelopment.com/releases)

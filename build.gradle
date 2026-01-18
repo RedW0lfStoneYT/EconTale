@@ -1,10 +1,11 @@
 plugins {
     id 'java'
     id("com.gradleup.shadow") version "9.3.1"
+    id 'maven-publish'
 }
 
 group = 'dev.selena'
-version = '1.0-SNAPSHOT'
+version = '1.0.0'
 description = "Economy mod for hytale"
 
 repositories {
@@ -72,5 +73,31 @@ build {
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(25))
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "Public"
+            if (version.toString().endsWith("SNAPSHOT")) {
+                url = "https://repo.selenadevelopment.com/snapshots"
+            } else {
+                url = "https://repo.selenadevelopment.com/releases"
+            }
+            credentials(PasswordCredentials)
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            groupId = group
+            artifactId = rootProject.name
+            version = rootProject.version
+
+        }
     }
 }

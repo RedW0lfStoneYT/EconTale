@@ -1,0 +1,11 @@
+{
+  "Group": "RWS",
+  "Name": "Hyconomy",
+  "Version": "1.0.0",
+  "Main": "dev.selena.econ.Hyconomy",
+  "Authors": [
+    {
+      "Name": "Selena"
+    }
+  ]
+}

@@ -4,7 +4,7 @@ import com.hypixel.hytale.server.core.command.system.CommandContext;
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractAsyncCommand;
 import dev.selena.core.util.PlaceholderUtil;
 import dev.selena.core.util.PlayerUtil;
-import dev.selena.econ.Hyconomy;
+import dev.selena.econ.EconTale;
 import dev.selena.econ.config.Config;
 import dev.selena.econ.config.Lang;
 import dev.selena.econ.consts.Placeholders;
@@ -42,7 +42,7 @@ public class BalanceTopCommand extends AbstractAsyncCommand {
     private void command(CommandContext commandContext) {
         File playerDirectory = new File("universe/players");
         if (!playerDirectory.exists() || !playerDirectory.isDirectory()) {
-            Hyconomy.getInstance().getLogger().at(Level.SEVERE).log("Player directory not found.");
+            EconTale.getInstance().getLogger().at(Level.SEVERE).log("Player directory not found.");
             return;
         }
 

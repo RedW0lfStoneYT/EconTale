@@ -8,8 +8,8 @@ import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import dev.selena.econ.config.Config;
 import dev.selena.econ.consts.MoneyEventReason;
-import dev.selena.econ.systems.events.HycononyMoneyAddEvent;
-import dev.selena.econ.systems.events.HycononyMoneyRemoveEvent;
+import dev.selena.econ.systems.events.EconTaleMoneyAddEvent;
+import dev.selena.econ.systems.events.EconTaleMoneyRemoveEvent;
 import it.unimi.dsi.fastutil.booleans.BooleanDoublePair;
 import lombok.Getter;
 import lombok.Setter;
@@ -98,17 +98,17 @@ public class CurrencyComponent implements Component<EntityStore> {
      * @see MoneyEventReason
      */
     public double deposit(double amount, MoneyEventReason reason, boolean ignoreCanceled) {
-        HycononyMoneyAddEvent.Pre addEvent = HytaleServer.get().getEventBus()
-                .dispatchFor(HycononyMoneyAddEvent.Pre.class)
-                .dispatch(new HycononyMoneyAddEvent.Pre(uuid, amount, reason));
+        EconTaleMoneyAddEvent.Pre addEvent = HytaleServer.get().getEventBus()
+                .dispatchFor(EconTaleMoneyAddEvent.Pre.class)
+                .dispatch(new EconTaleMoneyAddEvent.Pre(uuid, amount, reason));
         if (addEvent.isCancelled() && !ignoreCanceled) {
             return 0;
         }
         this.balance += addEvent.getAmount();
 
         HytaleServer.get().getEventBus()
-                .dispatchFor(HycononyMoneyAddEvent.Post.class)
-                .dispatch(new HycononyMoneyAddEvent.Post(uuid, addEvent.getAmount(), reason));
+                .dispatchFor(EconTaleMoneyAddEvent.Post.class)
+                .dispatch(new EconTaleMoneyAddEvent.Post(uuid, addEvent.getAmount(), reason));
         return addEvent.getAmount();
     }
 
@@ -130,17 +130,17 @@ public class CurrencyComponent implements Component<EntityStore> {
      * @see MoneyEventReason
      */
     public BooleanDoublePair tryWithdraw(double amount, MoneyEventReason reason) {
-        HycononyMoneyRemoveEvent.Pre removeEvent = HytaleServer.get().getEventBus()
-                .dispatchFor(HycononyMoneyRemoveEvent.Pre.class)
-                .dispatch(new HycononyMoneyRemoveEvent.Pre(uuid, amount, reason));
+        EconTaleMoneyRemoveEvent.Pre removeEvent = HytaleServer.get().getEventBus()
+                .dispatchFor(EconTaleMoneyRemoveEvent.Pre.class)
+                .dispatch(new EconTaleMoneyRemoveEvent.Pre(uuid, amount, reason));
         if (!canWithdraw(removeEvent.getAmount()) || removeEvent.isCancelled()) {
             return BooleanDoublePair.of(false, 0);
         }
         this.balance -= removeEvent.getAmount();
         this.balance = Math.max(this.balance, 0);
         HytaleServer.get().getEventBus()
-                .dispatchFor(HycononyMoneyRemoveEvent.Post.class)
-                .dispatch(new HycononyMoneyRemoveEvent.Post(uuid, removeEvent.getAmount(), reason));
+                .dispatchFor(EconTaleMoneyRemoveEvent.Post.class)
+                .dispatch(new EconTaleMoneyRemoveEvent.Post(uuid, removeEvent.getAmount(), reason));
         return BooleanDoublePair.of(true, removeEvent.getAmount());
     }
 
@@ -173,9 +173,9 @@ public class CurrencyComponent implements Component<EntityStore> {
      * @see MoneyEventReason
      */
     public double forceWithdraw(double amount, MoneyEventReason reason, boolean ignoreCanceled) {
-        HycononyMoneyRemoveEvent.Pre removeEvent = HytaleServer.get().getEventBus()
-                .dispatchFor(HycononyMoneyRemoveEvent.Pre.class)
-                .dispatch(new HycononyMoneyRemoveEvent.Pre(uuid, amount, reason));
+        EconTaleMoneyRemoveEvent.Pre removeEvent = HytaleServer.get().getEventBus()
+                .dispatchFor(EconTaleMoneyRemoveEvent.Pre.class)
+                .dispatch(new EconTaleMoneyRemoveEvent.Pre(uuid, amount, reason));
         if (removeEvent.isCancelled() && !ignoreCanceled) {
             return 0;
         }
@@ -183,8 +183,8 @@ public class CurrencyComponent implements Component<EntityStore> {
         this.balance = Math.max(this.balance, 0);
 
         HytaleServer.get().getEventBus()
-                .dispatchFor(HycononyMoneyRemoveEvent.Post.class)
-                .dispatch(new HycononyMoneyRemoveEvent.Post(uuid, removeEvent.getAmount(), reason));
+                .dispatchFor(EconTaleMoneyRemoveEvent.Post.class)
+                .dispatch(new EconTaleMoneyRemoveEvent.Post(uuid, removeEvent.getAmount(), reason));
         return removeEvent.getAmount();
     }
 

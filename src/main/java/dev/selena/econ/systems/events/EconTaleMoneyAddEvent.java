@@ -8,7 +8,7 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-public class HycononyMoneyAddEvent implements IEvent<Void> {
+public class EconTaleMoneyAddEvent implements IEvent<Void> {
 
     @Getter
     private double amount;
@@ -23,13 +23,13 @@ public class HycononyMoneyAddEvent implements IEvent<Void> {
      * @param amount Amount of money being added
      * @param reason Reason for money addition
      */
-    public HycononyMoneyAddEvent(UUID playerUUID, double amount, MoneyEventReason reason) {
+    public EconTaleMoneyAddEvent(UUID playerUUID, double amount, MoneyEventReason reason) {
         this.amount = amount;
         this.playerUUID = playerUUID;
         this.reason = reason;
     }
 
-    public HycononyMoneyAddEvent(UUID playerUUID, double amount) {
+    public EconTaleMoneyAddEvent(UUID playerUUID, double amount) {
         this(playerUUID, amount, MoneyEventReason.OTHER);
     }
 
@@ -37,7 +37,7 @@ public class HycononyMoneyAddEvent implements IEvent<Void> {
         this.amount = amount;
     }
 
-    public static class Pre extends HycononyMoneyAddEvent implements ICancellable {
+    public static class Pre extends EconTaleMoneyAddEvent implements ICancellable {
         @Getter
         @Setter
         private boolean cancelled;
@@ -53,7 +53,7 @@ public class HycononyMoneyAddEvent implements IEvent<Void> {
 
     }
 
-    public static class Post extends HycononyMoneyAddEvent {
+    public static class Post extends EconTaleMoneyAddEvent {
         public Post(UUID playerUUID, double amount, MoneyEventReason reason) {
             super(playerUUID, amount, reason);
         }

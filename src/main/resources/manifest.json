@@ -1,8 +1,8 @@
 {
   "Group": "RWS",
-  "Name": "Hyconomy",
+  "Name": "EconTale",
   "Version": "1.0.0",
-  "Main": "dev.selena.econ.Hyconomy",
+  "Main": "dev.selena.econ.EconTale",
   "Authors": [
     {
       "Name": "Selena"

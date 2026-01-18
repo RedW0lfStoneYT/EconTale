@@ -14,12 +14,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.logging.Level;
 
-public class Hyconomy extends JavaPlugin {
+public class EconTale extends JavaPlugin {
 
     @Getter
-    private static Hyconomy instance;
+    private static EconTale instance;
 
-    public Hyconomy(@NotNull JavaPluginInit init) {
+    public EconTale(@NotNull JavaPluginInit init) {
         super(init);
         instance = this;
         HytaleCore.setupCore(this);

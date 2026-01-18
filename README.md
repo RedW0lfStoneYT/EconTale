@@ -1,5 +1,5 @@
-# Hyconomy
-Hyconomy is a complex economy system for Hytale servers designed with the ability to get and modify player data when offline
+# EconTale
+EconTale is a complex economy system for Hytale servers designed with the ability to get and modify player data when offline
 
 ## Features
 - Offline Player Data Management: Access and modify player economy component data even when they are not online.
@@ -10,7 +10,7 @@ Hyconomy is a complex economy system for Hytale servers designed with the abilit
 1, Download from the curse forge page (COMING SOON)  
 2, Place the mod in your plugin folder  
 3, Restart your server then stop it again if you wish to edit the config  
-4, Configure the mod using the config and lang file located in the RWS_Hyconomy folder  
+4, Configure the mod using the config and lang file located in the RWS_EconTale folder  
 5, Boot up the server and enjoy!  
 
 ## Usage

@@ -1,6 +1,7 @@
 package dev.selena.econ.util;
 
 import dev.selena.core.util.PlayerUtil;
+import dev.selena.econ.EconTale;
 import dev.selena.econ.component.CurrencyComponent;
 import dev.selena.econ.config.Config;
 import dev.selena.econ.consts.MoneyEventReason;
@@ -55,8 +56,12 @@ public class CurrencyUtil {
     public static TransferRecord tryTransferMoney(CurrencyComponent fromWallet, CurrencyComponent toWallet, double amount) {
         BooleanDoublePair transfer = fromWallet.tryWithdraw(amount, MoneyEventReason.TRANSFER_SEND);
         if (transfer.firstBoolean()) {
-            double received = toWallet.deposit(transfer.secondDouble(), MoneyEventReason.TRANSFER_RECEIVE);
-            return new TransferRecord(true, transfer.secondDouble(), received);
+            BooleanDoublePair receivedPair = toWallet.deposit(transfer.secondDouble(), MoneyEventReason.TRANSFER_RECEIVE);
+            if (!receivedPair.firstBoolean()) {
+                EconTale.log("Failed to deposit money during transfer. If this was intentionally canceled consider cancelling the send instead.");
+                return new TransferRecord(false, transfer.secondDouble(), 0);
+            }
+            return new TransferRecord(true, transfer.secondDouble(), receivedPair.valueDouble());
         }
         return new TransferRecord(false, 0, 0);
     }

@@ -15,6 +15,7 @@ import dev.selena.econ.config.Lang;
 import dev.selena.econ.consts.MoneyEventReason;
 import dev.selena.econ.consts.Placeholders;
 import dev.selena.econ.util.CurrencyUtil;
+import it.unimi.dsi.fastutil.booleans.BooleanDoublePair;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -61,7 +62,16 @@ public class AdminAddCommand extends AbstractAsyncCommand {
             commandContext.sender().sendMessage(PlaceholderUtil.parsePlaceholdersToMessage(Lang.get().getPaymentCantBeBelowZero()));
             return;
         }
-        double finalAmount = wallet.deposit(commandContext.get(amountArg), MoneyEventReason.ADMIN_ADD, true);
+        BooleanDoublePair transactionAmount = wallet.deposit(commandContext.get(amountArg), MoneyEventReason.ADMIN_ADD, true);
+
+        if (!transactionAmount.firstBoolean()) {
+            commandContext.sender().sendMessage(PlaceholderUtil.parsePlaceholdersToMessage(
+                    Lang.get().getDepositFailed(), Placeholders.AMOUNT, commandContext.get(amountArg).toString()
+            ));
+        }
+
+        double finalAmount = transactionAmount.rightDouble();
+
 
         String formattedAmount = CurrencyUtil.formatCurrency(finalAmount);
         String formattedBal =  CurrencyUtil.formatCurrency(wallet.getBalance());

@@ -73,7 +73,7 @@ public class CurrencyComponent implements Component<EntityStore> {
      * @return The actual amount deposited (Could be altered by events).
      * @see CurrencyComponent#deposit(double, MoneyEventReason)
      */
-    public double deposit(double amount) {
+    public BooleanDoublePair deposit(double amount) {
         return deposit(amount, MoneyEventReason.OTHER);
     }
 
@@ -85,31 +85,32 @@ public class CurrencyComponent implements Component<EntityStore> {
      * @see MoneyEventReason
      * @see CurrencyComponent#deposit(double, MoneyEventReason, boolean)
      */
-    public double deposit(double amount, MoneyEventReason reason) {
+    public BooleanDoublePair deposit(double amount, MoneyEventReason reason) {
         return deposit(amount, reason, false);
     }
 
     /**
      * Deposits the specified amount into the currency component with a reason and option to ignore canceled events.
-     * @param amount The amount to deposit.
-     * @param reason The reason for the deposit.
+     *
+     * @param amount         The amount to deposit.
+     * @param reason         The reason for the deposit.
      * @param ignoreCanceled Whether to ignore canceled events.
      * @return The actual amount deposited (Could be altered by events).
      * @see MoneyEventReason
      */
-    public double deposit(double amount, MoneyEventReason reason, boolean ignoreCanceled) {
+    public BooleanDoublePair deposit(double amount, MoneyEventReason reason, boolean ignoreCanceled) {
         EconTaleMoneyAddEvent.Pre addEvent = HytaleServer.get().getEventBus()
                 .dispatchFor(EconTaleMoneyAddEvent.Pre.class)
                 .dispatch(new EconTaleMoneyAddEvent.Pre(uuid, amount, reason));
         if (addEvent.isCancelled() && !ignoreCanceled) {
-            return 0;
+            return BooleanDoublePair.of(false, 0);
         }
         this.balance += addEvent.getAmount();
 
         HytaleServer.get().getEventBus()
                 .dispatchFor(EconTaleMoneyAddEvent.Post.class)
                 .dispatch(new EconTaleMoneyAddEvent.Post(uuid, addEvent.getAmount(), reason));
-        return addEvent.getAmount();
+        return BooleanDoublePair.of(true, addEvent.getAmount());
     }
 
     /**

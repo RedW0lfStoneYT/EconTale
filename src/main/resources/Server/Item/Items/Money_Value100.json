@@ -1,0 +1,35 @@
+{
+  "Model": "Items/Money/Money.blockymodel",
+  "Texture": "Items/Money/Money_Texture_Value100.png",
+  "Icon": "Icons/ItemsGenerated/Money_Value100.png",
+  "IconProperties": {
+    "Scale": 0.58823,
+    "Rotation": [
+      22.5,
+      148,
+      22.5
+    ],
+    "Translation": [
+      -5,
+      -7
+    ]
+  },
+  "TranslationProperties": {
+    "Name": "$100",
+    "Description": "Each item is worth $100"
+  },
+  "Quality": "Uncommon",
+  "PlayerAnimationsId": "Item",
+  "Interactions": {
+    "Secondary": {
+      "Interactions": [
+        {
+          "Type": "RedeemMoneyFromItemInteraction",
+          "Value": 100,
+          "ComsumeAllSneaking": true
+        }
+      ]
+    }
+  },
+  "MaxStack": 1000
+}

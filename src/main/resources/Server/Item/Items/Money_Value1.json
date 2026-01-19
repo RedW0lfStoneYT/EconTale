@@ -1,0 +1,35 @@
+{
+  "Model": "Items/Money/Money.blockymodel",
+  "Texture": "Items/Money/Money_Texture_Value1.png",
+  "Icon": "Icons/ItemsGenerated/Money_Value1.png",
+  "IconProperties": {
+    "Scale": 0.58823,
+    "Rotation": [
+      22.5,
+      148,
+      22.5
+    ],
+    "Translation": [
+      -5,
+      -7
+    ]
+  },
+  "TranslationProperties": {
+    "Name": "$1",
+    "Description": "Each item is worth $1"
+  },
+  "Quality": "Common",
+  "PlayerAnimationsId": "Item",
+  "Interactions": {
+    "Secondary": {
+      "Interactions": [
+        {
+          "Type": "RedeemMoneyFromItemInteraction",
+          "Value": 1,
+          "ComsumeAllSneaking": true
+        }
+      ]
+    }
+  },
+  "MaxStack": 1000
+}

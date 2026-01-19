@@ -3,6 +3,7 @@
   "Name": "EconTale",
   "Version": "1.0.0",
   "Main": "dev.selena.econ.EconTale",
+  "IncludesAssetPack": true,
   "Authors": [
     {
       "Name": "Selena"

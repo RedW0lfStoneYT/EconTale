@@ -31,6 +31,11 @@ public class Config {
     @Comment("The name of the currency in plural form")
     private String CurrencyNamePlural = "Coins";
 
+    @Getter
+    @Expose
+    @Comment("How long should the baltop cache last in mins")
+    private int BalTopCacheDurationMins = 5;
+
     public static Config get() {
         return Configs.CONFIG.getConfig();
     }

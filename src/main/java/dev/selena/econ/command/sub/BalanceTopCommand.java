@@ -8,6 +8,7 @@ import dev.selena.econ.EconTale;
 import dev.selena.econ.config.Config;
 import dev.selena.econ.config.Lang;
 import dev.selena.econ.consts.Placeholders;
+import dev.selena.econ.util.CachedMessage;
 import dev.selena.econ.util.CurrencyUtil;
 import net.celestialpvp.utils.ColorUtils;
 import org.jetbrains.annotations.NotNull;
@@ -24,6 +25,7 @@ public class BalanceTopCommand extends AbstractAsyncCommand {
         this.addAliases("baltop");
     }
 
+    private CachedMessage cacheBaltop = null;
 
     @NotNull
     @Override
@@ -43,6 +45,11 @@ public class BalanceTopCommand extends AbstractAsyncCommand {
         File playerDirectory = new File("universe/players");
         if (!playerDirectory.exists() || !playerDirectory.isDirectory()) {
             EconTale.getInstance().getLogger().at(Level.SEVERE).log("Player directory not found.");
+            return;
+        }
+
+        if (cacheBaltop != null && !cacheBaltop.isExpired()) {
+            commandContext.sender().sendMessage(cacheBaltop.value());
             return;
         }
 
@@ -78,7 +85,7 @@ public class BalanceTopCommand extends AbstractAsyncCommand {
             message.append(formattedEntry).append("\n");
         }
         message.append(Lang.get().getBalTopFooter());
-
+        cacheBaltop = new CachedMessage(System.currentTimeMillis() + Config.get().getBalTopCacheDurationMins() * 60000L, ColorUtils.parse(message.toString()));
         commandContext.sender().sendMessage(ColorUtils.parse(message.toString()));
     }
 

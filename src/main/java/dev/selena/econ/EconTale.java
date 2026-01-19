@@ -15,8 +15,10 @@ import dev.selena.econ.component.CurrencyComponent;
 import dev.selena.econ.config.Configs;
 import lombok.Getter;
 import net.cfh.vault.VaultUnlockedServicesManager;
+import net.milkbowl.vault2.economy.Economy;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 
 public class EconTale extends JavaPlugin {
@@ -29,16 +31,6 @@ public class EconTale extends JavaPlugin {
         instance = this;
         HytaleCore.setupCore(this);
         HytaleCore.loadAllConfigs(Configs.class);
-//        if (HytaleServer.get().getPluginManager().hasPlugin(
-//                PluginIdentifier.fromString("TheNewEconomy:VaultUnlocked"),
-//                SemverRange.WILDCARD
-//        )) {
-//            log("VaultUnlocked is installed, enabling VaultUnlocked support.");
-//
-//            VaultUnlockedServicesManager.get().economy(new VaultUnlockedEconomyProvider());
-//        } else {
-//            log("VaultUnlocked is not installed, disabling VaultUnlocked support.");
-//        }
 
     }
 
@@ -56,8 +48,25 @@ public class EconTale extends JavaPlugin {
 
     @Override
     protected void start() {
-        VaultUnlockedServicesManager services = VaultUnlockedServicesManager.get();
-        services.economy(new VaultUnlockedEconomyProvider());
+        if (HytaleServer.get().getPluginManager().hasPlugin(
+                PluginIdentifier.fromString("TheNewEconomy:VaultUnlocked"),
+                SemverRange.WILDCARD
+        )) {
+            log("VaultUnlocked is installed, enabling VaultUnlocked support.");
+
+            try {
+                Class<?> providerClass = Class.forName("dev.selena.econ.api.VaultUnlockedEconomyProvider");
+                Object providerInstance = providerClass.getDeclaredConstructor().newInstance();
+
+                VaultUnlockedServicesManager.get().economy((Economy) providerInstance);
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+                     NoSuchMethodException | InvocationTargetException e) {
+                log("Failed to enable VaultUnlocked support: " + e.getMessage());
+            }
+
+        } else {
+            log("VaultUnlocked is not installed, disabling VaultUnlocked support.");
+        }
     }
 
     public void runOnPluginThread(Runnable task) {

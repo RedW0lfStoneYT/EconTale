@@ -60,4 +60,4 @@ dependencies {
     implementation "dev.selena:EconTale:<VERSION>"
 }
 ```
-for other build tools please refer to [the repo](https://repo.selenadevelopment.com/releases)
+for other build tools please refer to [the repo](https://repo.selenadevelopment.com/#/releases)

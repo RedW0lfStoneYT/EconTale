@@ -83,6 +83,11 @@ public class Lang {
     @Comment("The footer message for baltop")
     private String BalTopFooter = "&e-----------------------";
 
+    @Getter
+    @Expose
+    @Comment("The message sent when a deposit fails (usually event cancelled)")
+    private String DepositFailed = "&cYour deposit of &e{amount} &chas failed.";
+
     public static Lang get() {
         return Configs.LANG.getConfig();
     }

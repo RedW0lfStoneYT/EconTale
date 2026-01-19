@@ -88,6 +88,22 @@ public class Lang {
     @Comment("The message sent when a deposit fails (usually event cancelled)")
     private String DepositFailed = "&cYour deposit of &e{amount} &chas failed.";
 
+    @Getter
+    @Expose
+    @Comment("The message sent when you redeem a money item")
+    private String RedeemMoneyItem = "&e{amount} &ahas been added to your wallet.";
+
+    @Getter
+    @Expose
+    @Comment("The message sent when you withdraw money to a money item")
+    private String WithdrawMoneyItem = "&e{amount} &ahas been withdrawn from your wallet.";
+
+    @Getter
+    @Expose
+    @Comment("The message sent when a withdrawal fails (usually event cancelled)")
+    private String WithdrawFailed = "&cYour withdrawal of &e{amount} &chas failed.";
+
+
     public static Lang get() {
         return Configs.LANG.getConfig();
     }

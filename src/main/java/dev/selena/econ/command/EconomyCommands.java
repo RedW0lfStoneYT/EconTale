@@ -24,6 +24,7 @@ public class EconomyCommands extends CommandBase {
         this.addSubCommand(new AdminRemoveCommand());
         this.addSubCommand(new AdminSetCommand());
         this.addSubCommand(new BalanceTopCommand());
+        this.addSubCommand(new WithdrawCommand());
         this.addAliases("econ", "eco");
     }
 

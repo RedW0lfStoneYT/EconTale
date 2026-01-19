@@ -3,6 +3,8 @@ package dev.selena.econ;
 import com.hypixel.hytale.common.plugin.PluginIdentifier;
 import com.hypixel.hytale.common.semver.SemverRange;
 import com.hypixel.hytale.server.core.HytaleServer;
+import com.hypixel.hytale.server.core.modules.interaction.Interactions;
+import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import dev.selena.core.HytaleCore;
@@ -11,8 +13,10 @@ import dev.selena.econ.command.EconomyCommands;
 import dev.selena.econ.command.sub.BalanceCommand;
 import dev.selena.econ.command.sub.BalanceTopCommand;
 import dev.selena.econ.command.sub.DepositCommand;
+import dev.selena.econ.command.sub.WithdrawCommand;
 import dev.selena.econ.component.CurrencyComponent;
 import dev.selena.econ.config.Configs;
+import dev.selena.econ.interactions.RedeemMoneyFromItemInteraction;
 import lombok.Getter;
 import net.cfh.vault.VaultUnlockedServicesManager;
 import net.milkbowl.vault2.economy.Economy;
@@ -40,10 +44,13 @@ public class EconTale extends JavaPlugin {
         if (CurrencyComponent.getComponentType() == null) {
             CurrencyComponent.setComponentType(getEntityStoreRegistry().registerComponent(CurrencyComponent.class, "EconTale", CurrencyComponent.CODEC));
         }
+        Interaction.CODEC.register("RedeemMoneyFromItemInteraction", RedeemMoneyFromItemInteraction.class, RedeemMoneyFromItemInteraction.CODEC);
+
         getCommandRegistry().registerCommand(new EconomyCommands());
         getCommandRegistry().registerCommand(new BalanceCommand());
         getCommandRegistry().registerCommand(new DepositCommand());
         getCommandRegistry().registerCommand(new BalanceTopCommand());
+        getCommandRegistry().registerCommand(new WithdrawCommand());
     }
 
     @Override

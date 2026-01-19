@@ -5,8 +5,10 @@ import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.Component;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.server.core.HytaleServer;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import dev.selena.econ.config.Config;
+import dev.selena.econ.consts.CurrencyItemValues;
 import dev.selena.econ.consts.MoneyEventReason;
 import dev.selena.econ.systems.events.EconTaleMoneyAddEvent;
 import dev.selena.econ.systems.events.EconTaleMoneyRemoveEvent;
@@ -16,6 +18,9 @@ import lombok.Setter;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class CurrencyComponent implements Component<EntityStore> {
@@ -196,6 +201,34 @@ public class CurrencyComponent implements Component<EntityStore> {
      */
     public boolean canWithdraw(double amount) {
         return this.balance >= amount;
+    }
+
+    /**
+     * Withdraws the specified amount and converts it into a list of ItemStacks representing currency items.
+     * @param amount The amount to withdraw.
+     * @return A list of ItemStacks representing the withdrawn currency items, or null if the withdrawal failed.
+     */
+    public List<ItemStack> withdrawToItemStack(int amount) {
+        BooleanDoublePair result = tryWithdraw(amount);
+        if (!result.leftBoolean()) {
+            return null;
+        }
+        int withdrawnAmount = (int) result.rightDouble();
+        Map<Integer, ItemStack> itemMap = new HashMap<>();
+        for (int i = 0; i < CurrencyItemValues.CURRENCY_VALUES.length; i++) {
+            while (withdrawnAmount >= CurrencyItemValues.CURRENCY_VALUES[i]) {
+                withdrawnAmount = withdrawnAmount - CurrencyItemValues.CURRENCY_VALUES[i];
+                if (itemMap.containsKey(CurrencyItemValues.CURRENCY_VALUES[i])) {
+                    ItemStack existing = itemMap.get(CurrencyItemValues.CURRENCY_VALUES[i]);
+                    itemMap.put(CurrencyItemValues.CURRENCY_VALUES[i], new ItemStack(CurrencyItemValues.CURRENCY_ITEMS[i], existing.getQuantity() + 1));
+                    continue;
+                }
+
+                itemMap.put(CurrencyItemValues.CURRENCY_VALUES[i], new ItemStack(CurrencyItemValues.CURRENCY_ITEMS[i]));
+            }
+        }
+
+        return List.copyOf(itemMap.values());
     }
 
 

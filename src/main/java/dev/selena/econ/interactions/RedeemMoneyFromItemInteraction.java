@@ -51,10 +51,10 @@ public class RedeemMoneyFromItemInteraction extends SimpleInstantInteraction {
         if (wallet == null) {
             return;
         }
-        MovementStates state = interactionContext.getEntity().getStore().getComponent(interactionContext.getEntity(), MovementStatesComponent.getComponentType()).getMovementStates();
 
 
         ItemStack itemStack = interactionContext.getHeldItem();
+        MovementStates state = interactionContext.getEntity().getStore().getComponent(interactionContext.getEntity(), MovementStatesComponent.getComponentType()).getMovementStates();
         if (itemStack == null) {
             return;
         }

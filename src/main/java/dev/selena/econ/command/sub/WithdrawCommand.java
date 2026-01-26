@@ -31,7 +31,7 @@ public class WithdrawCommand extends AbstractAsyncPlayerCommand {
     public WithdrawCommand() {
         super("withdraw", "Withdraws money from your balance into an item");
         this.amountArg = this.withRequiredArg("amount", "The amount of money to withdraw", ArgTypes.INTEGER);
-        this.requirePermission("EconTale.command.withdraw");
+        this.requirePermission("econ.withdraw");
     }
 
     @Override

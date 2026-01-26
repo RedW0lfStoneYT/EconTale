@@ -23,6 +23,7 @@ public class BalanceTopCommand extends AbstractAsyncCommand {
     public BalanceTopCommand() {
         super("balancetop", "Check the top players by balance", false);
         this.addAliases("baltop");
+        requirePermission("econ.player");
     }
 
     private CachedMessage cacheBaltop = null;

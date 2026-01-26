@@ -29,6 +29,7 @@ public class DepositCommand extends AbstractAsyncCommand {
         playerArg = this.withRequiredArg("player", "The player to deposit money to", ArgTypes.GAME_PROFILE_LOOKUP);
         amountArg = this.withRequiredArg("amount", "The amount of money to add", ArgTypes.DOUBLE);
         this.addAliases("pay");
+        requirePermission("econ.player");
     }
 
     @NotNull

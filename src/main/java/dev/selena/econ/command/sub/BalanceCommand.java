@@ -27,6 +27,7 @@ public class BalanceCommand extends AbstractAsyncCommand {
         super("balance", "Check a players balance");
         this.addAliases("bal", "money");
         playerArg = this.withOptionalArg("player", "The player to check the balance of", ArgTypes.GAME_PROFILE_LOOKUP);
+        requirePermission("econ.player");
     }
 
     @NotNull
